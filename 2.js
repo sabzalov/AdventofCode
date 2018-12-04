@@ -283,10 +283,7 @@ for (let letterToRemove = 0; letterToRemove < 26; letterToRemove++) {
 
 performance.mark("end");
 performance.measure("algorithm", "begin", "end");
-// const test = performance.now();
 
-// console.timeEnd();
-// performance.getEntriesByName("measure");
 console.log(result);
 
 // wmlnjevbfodamyiqpucrhsukg
