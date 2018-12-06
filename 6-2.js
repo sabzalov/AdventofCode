@@ -62,11 +62,9 @@ performance.mark("begin");
 function getDistances(input, x, y) {
   const distances = [];
   for (let i = 0; i < input.length; i++) {
-    // const nodeX = input[i][0];
-    // const nodeY = input[i][1];
     const [nodeX, nodeY] = input[i];
-    // const distance = Math.abs(x - nodeX) + Math.abs(y - nodeY);
-    distances.push(Math.abs(x - nodeX) + Math.abs(y - nodeY));
+    const distance = Math.abs(x - nodeX) + Math.abs(y - nodeY);
+    distances.push(distance);
   }
   return distances.reduce((total, d) => total + d);
 }
