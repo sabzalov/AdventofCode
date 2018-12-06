@@ -69,7 +69,7 @@ function getClosestNodes(input, x, y) {
   }
   return closestIndexes;
 }
-/*
+
 // solution 1
 const xMin = Math.min(...inputs.map(i => i[0]));
 const xMax = Math.max(...inputs.map(i => i[0]));
@@ -104,4 +104,3 @@ const solution = Math.max(
 );
 
 console.log(solution);
-*/
