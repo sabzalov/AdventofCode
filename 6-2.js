@@ -51,32 +51,22 @@ const raw = `336, 308
 const inputs = raw.split("\n").map(item => item.split(", "));
 const maxDistance = 10000;
 
-function getClosestNodes(input, x, y) {
-  let leastDiff = Number.POSITIVE_INFINITY;
-  let closestIndexes = [];
-
-  for (let i = 0; i < input.length; i++) {
-    const nodeX = input[i][0];
-    const nodeY = input[i][1];
-    const key = `${input[i][0]}x${input[i][1]}`;
-    const totalDiff = Math.abs(x - nodeX) + Math.abs(y - nodeY);
-    if (totalDiff < leastDiff) {
-      closestIndexes = [key];
-      leastDiff = totalDiff;
-    } else if (totalDiff == leastDiff) {
-      closestIndexes.push(key);
-    }
-  }
-  return closestIndexes;
-}
+const { performance, PerformanceObserver } = require("perf_hooks");
+const obs = new PerformanceObserver(items => {
+  console.log(items.getEntries()[0].duration);
+  performance.clearMarks();
+});
+obs.observe({ entryTypes: ["measure"] });
+performance.mark("begin");
 
 function getDistances(input, x, y) {
   const distances = [];
   for (let i = 0; i < input.length; i++) {
-    const nodeX = input[i][0];
-    const nodeY = input[i][1];
-    const distance = Math.abs(x - nodeX) + Math.abs(y - nodeY);
-    distances.push(distance);
+    // const nodeX = input[i][0];
+    // const nodeY = input[i][1];
+    const [nodeX, nodeY] = input[i];
+    // const distance = Math.abs(x - nodeX) + Math.abs(y - nodeY);
+    distances.push(Math.abs(x - nodeX) + Math.abs(y - nodeY));
   }
   return distances.reduce((total, d) => total + d);
 }
@@ -94,4 +84,6 @@ for (let x = xMin; x <= xMax; x++) {
 }
 
 const solution = Object.values(grid).filter(item => item < maxDistance).length;
+performance.mark("end");
+performance.measure("algorithm", "begin", "end");
 console.log(solution);

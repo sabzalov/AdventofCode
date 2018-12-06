@@ -1,3 +1,5 @@
+const { performance, PerformanceObserver } = require("perf_hooks");
+
 const raw = `336, 308
 262, 98
 352, 115
@@ -48,6 +50,13 @@ const raw = `336, 308
 140, 176
 109, 324
 128, 132`;
+
+const obs = new PerformanceObserver(items => {
+  console.log(items.getEntries()[0].duration);
+  performance.clearMarks();
+});
+obs.observe({ entryTypes: ["measure"] });
+performance.mark("begin");
 
 const inputs = raw.split("\n").map(item => item.split(", "));
 
@@ -102,5 +111,6 @@ const blah = Object.keys(grid).reduce((prev, key) => {
 const solution = Math.max(
   ...Object.values(blah).filter(val => val < Number.POSITIVE_INFINITY)
 );
-
+performance.mark("end");
+performance.measure("algorithm", "begin", "end");
 console.log(solution);
