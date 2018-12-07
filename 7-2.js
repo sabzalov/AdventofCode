@@ -157,14 +157,7 @@ while (pattern.length < allNodes.length) {
   );
 
   workers = remainingWorkers;
-  console.log(time, workers, completedWorkers);
-  while (workers.length < workerCount && startingPoints.length > 0) {
-    const next = startingPoints.shift();
-    workers.push({
-      endsAt: time + stepBasis + alphabet.indexOf(next.toLowerCase()),
-      val: next
-    });
-  }
+  // console.log(time, workers, completedWorkers);
 
   completedWorkers.forEach(nextNodeKey => {
     pattern.push(nextNodeKey);
@@ -182,7 +175,20 @@ while (pattern.length < allNodes.length) {
     startingPoints.sort();
   });
 
-  time++;
+  while (workers.length < workerCount && startingPoints.length > 0) {
+    const next = startingPoints.shift();
+    workers.push({
+      endsAt: time + stepBasis + alphabet.indexOf(next.toLowerCase()) + 1,
+      val: next
+    });
+  }
+
+  // time++;
+  // console.log(workers, time);
+  const nextTime = Math.min(...workers.map(({ endsAt }) => endsAt));
+  console.log(workers, time);
+  // time = Number.isFinite(nextTime) ? nextTime : time + 1;
+  time = nextTime;
 }
 
 console.log("SOLUTION:", time);
