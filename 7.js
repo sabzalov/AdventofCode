@@ -116,10 +116,8 @@ const outputs = inputs.reduce((pattern, [before, after]) => {
   if (!pattern[after]) {
     pattern[after] = { after: [], before: [] };
   }
-  //   pattern[before].after = pattern[before] || [];
   pattern[before].after.push(after);
   pattern[after].before.push(before);
-  //   pattern[before].sort();
   return pattern;
 }, {});
 
