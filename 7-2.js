@@ -108,7 +108,7 @@ Step B must be finished before step E can begin.
 Step D must be finished before step E can begin.
 Step F must be finished before step E can begin.`;
 
-const inputs = raw.split("\n").map(string => [string[5], string[36]]);
+const inputs = rawTest.split("\n").map(string => [string[5], string[36]]);
 const outputs = inputs.reduce((pattern, [before, after]) => {
   if (!pattern[before]) {
     pattern[before] = { after: [], before: [] };
@@ -139,8 +139,10 @@ const allNodes = Object.keys(outputs);
 const pattern = [];
 let time = 0;
 let workers = [];
-const stepBasis = 60;
-const workerCount = 5;
+// const stepBasis = 60;
+// const workerCount = 5;
+const stepBasis = 0;
+const workerCount = 2;
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
 while (pattern.length < allNodes.length) {
