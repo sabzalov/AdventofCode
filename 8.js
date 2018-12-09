@@ -17,11 +17,11 @@ function getMetadata(nodes, startPoint) {
   return currentStartPoint + entries;
 }
 
-module.exports = input => {
-  const startData = input.split(" ").map(n => Number(n));
-  performance.mark("begin");
-  getMetadata(startData, 0);
-  const solution = allMetadata.reduce((sum, val) => val + sum, 0);
-  performance.mark("end");
-  return solution;
+module.exports = {
+  parseInput: input => input.split(" ").map(n => Number(n)),
+  getSolution: input => {
+    getMetadata(input, 0);
+    const solution = allMetadata.reduce((sum, val) => val + sum, 0);
+    return solution;
+  }
 };

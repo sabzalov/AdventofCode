@@ -1,5 +1,3 @@
-const { performance } = require("perf_hooks");
-
 function getNodeValue(nodes, startPoint) {
   let childCount = nodes[startPoint];
   let entries = nodes[startPoint + 1];
@@ -28,10 +26,10 @@ function getNodeValue(nodes, startPoint) {
   return [currentStartPoint + entries, nodeValue];
 }
 
-module.exports = input => {
-  const startData = input.split(" ").map(n => Number(n));
-  performance.mark("begin");
-  const [_, solution] = getNodeValue(startData, 0);
-  performance.mark("end");
-  return solution;
+module.exports = {
+  parseInput: input => input.split(" ").map(n => Number(n)),
+  getSolution: input => {
+    const [_, solution] = getNodeValue(input, 0);
+    return solution;
+  }
 };
