@@ -7,7 +7,11 @@ const part = process.argv[2];
  * Solution runner to use from 8 onwards
  */
 
-const inputId = part[0];
+console.log(part);
+let inputId = part[0];
+if (part.length % 2 == 0) {
+  inputId = part[0] + part[1];
+}
 const rawInput = fs.readFileSync(`./inputs/${inputId}.txt`, "utf8");
 const { parseInput, getSolution } = require(`./${part}.js`);
 const obs = new PerformanceObserver(items => {
