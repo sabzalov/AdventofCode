@@ -10,22 +10,26 @@ function getCellPower(x, y, serial) {
   return power;
 }
 
-function getBlockPower(x, y, size, serial) {
+function getBlockPower(x, y, size, grid) {
   let blockPower = 0;
-  for (let i = 0; i <= size; i++) {
-    for (let j = 0; j <= size; j++) {
-      blockPower = blockPower + getCellPower(x + i, j + y, serial);
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      try {
+        blockPower = blockPower + grid[y + i][x + j];
+      } catch (e) {
+        console.log("ERR", i, j, x, y, size);
+      }
     }
   }
   return blockPower;
 }
 
-function getMaxBlockSize(x, y, serial) {
-  const maxSize = Math.max(300 - x, 300 - y);
+function getMaxBlockSize(x, y, grid) {
+  const maxSize = Math.min(300 - x, 300 - y);
   let maxBlockPower = Number.NEGATIVE_INFINITY;
   let maxSizeBox = 0;
-  for (let size = 1; size < maxSize; size++) {
-    const blockPower = getBlockPower(x, y, size, serial);
+  for (let size = maxSize; size > 0; size--) {
+    const blockPower = getBlockPower(x, y, size, grid);
     if (blockPower > maxBlockPower) {
       maxBlockPower = blockPower;
       maxSizeBox = size;
@@ -35,15 +39,25 @@ function getMaxBlockSize(x, y, serial) {
   return { power: maxBlockPower, size: maxSizeBox };
 }
 
-function buildGrid(input) {
-  const grid = {};
+function buildGrid(serial) {
+  const grid = new Array(300).fill(0).map((r, y) => {
+    return new Array(300).fill(0).map((p, x) => {
+      return getCellPower(x + 1, y + 1, serial);
+    });
+  });
+  return grid;
+}
+
+function getSolution(serial) {
+  const grid = buildGrid(serial);
+  const results = {};
   let currentMaxPower = Number.NEGATIVE_INFINITY;
   let currentMaxCoord;
-  for (let x = 1; x < 300; x++) {
-    for (let y = 1; y < 300; y++) {
-      const { power: blockPower, size } = getMaxBlockSize(x, y, input);
-      const coord = `${x}, ${y}, ${size}`;
-      grid[coord] = blockPower;
+  for (let x = 0; x < 300; x++) {
+    for (let y = 0; y < 300; y++) {
+      const { power: blockPower, size } = getMaxBlockSize(x, y, grid);
+      const coord = `${x + 1},${y + 1},${size}`;
+      results[coord] = blockPower;
       if (blockPower > currentMaxPower) {
         currentMaxPower = blockPower;
         currentMaxCoord = coord;
@@ -58,8 +72,9 @@ module.exports = {
   parseInput: input => {
     return Number(input);
   },
-  getSolution: power => {
-    return buildGrid(18);
-    // return buildGrid(power);
+  getSolution: serial => {
+    // return getSolution(42);
+    // return buildGrid(serial);
+    return getSolution(serial);
   }
 };
