@@ -45,9 +45,7 @@ function getSolutionString(positions, spread) {
   positions.forEach(([x, y]) => {
     box[y - spread.minY][x - spread.minX] = "x";
   });
-  return box
-    .map(r => r.join(""))
-    .reduce((total, line) => `${total}\n${line}`, "\n");
+  return box.reduce((total, line) => `${total}\n${line.join("")}`, "\n");
 }
 
 function solution(positions, velocities) {
@@ -101,6 +99,6 @@ module.exports = {
     );
   },
   getSolution: ({ positions, velocities }) => {
-    solution(positions, velocities);
+    return solution(positions, velocities);
   }
 };
